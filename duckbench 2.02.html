@@ -270,430 +270,395 @@
 		
         <div class="cell">
             <div class="model-label">GLM 4.6 Exacto</div>
-            <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
-  <!-- Definitions for gradients and filters -->
+            <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Define gradients and filters -->
   <defs>
     <!-- Sky gradient -->
-    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+    <linearGradient id="duckScene_skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
-      <stop offset="40%" style="stop-color:#FDB813;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FEA47F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
     </linearGradient>
     
     <!-- Water gradient -->
-    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#5D8AA8;stop-opacity:0.9" />
-      <stop offset="100%" style="stop-color:#1E3A5F;stop-opacity:0.9" />
+    <linearGradient id="duckScene_waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E90FF;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#0047AB;stop-opacity:0.9" />
     </linearGradient>
     
-    <!-- Cloud filter -->
-    <filter id="cloudFilter">
-      <feTurbulence baseFrequency="0.02" numOctaves="2" result="turbulence" seed="3">
-        <animate attributeName="baseFrequency" 
-                 values="0.02;0.03;0.02" 
-                 dur="30s" 
-                 repeatCount="indefinite" />
-      </feTurbulence>
-      <feColorMatrix in="turbulence" type="saturate" values="0"/>
-      <feComponentTransfer>
-        <feFuncA type="discrete" tableValues="0 0 0.1 0.1 0.1 0.1 0.2 0.2 0.2 0.3 0.3 0.3 0.4 0.4 0.4 0.5 0.5 0.5 0.6 0.6 0.6 0.7 0.7 0.7 0.8 0.8 0.8 0.9 0.9 0.9 1"/>
-      </feComponentTransfer>
-      <feGaussianBlur stdDeviation="1"/>
-      <feComposite operator="over" in2="SourceGraphic"/>
-    </filter>
+    <!-- Sun gradient -->
+    <radialGradient id="duckScene_sunGradient">
+      <stop offset="0%" style="stop-color:#FFF8DC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
+    </radialGradient>
     
     <!-- Water ripple filter -->
-    <filter id="turbulence">
-      <feTurbulence type="fractalNoise" baseFrequency="0.01 0.02" numOctaves="2" result="turbulence" seed="1">
+    <filter id="duckScene_turbulence">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02 0.05" numOctaves="2" result="turbulence" seed="1">
         <animate attributeName="baseFrequency" 
-                 values="0.01 0.02;0.02 0.03;0.01 0.02" 
-                 dur="8s" 
-                 repeatCount="indefinite" />
+          values="0.02 0.05;0.03 0.06;0.02 0.05" 
+          dur="8s" 
+          repeatCount="indefinite" />
       </feTurbulence>
-      <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+      <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    
+    <!-- Cloud filter for soft edges -->
+    <filter id="duckScene_cloudFilter">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
     </filter>
   </defs>
   
-  <!-- Sky -->
-  <rect width="800" height="350" fill="url(#skyGradient)"/>
-  
-  <!-- Distant mountains -->
-  <path d="M0,250 Q200,200 400,220 T800,250 L800,350 L0,350 Z" 
-        fill="#8B7D6B" 
-        opacity="0.4"/>
-  
-  <!-- Clouds -->
-  <g filter="url(#cloudFilter)">
-    <ellipse cx="150" cy="80" rx="60" ry="20" fill="white" opacity="0.7"/>
-    <ellipse cx="180" cy="85" rx="70" ry="25" fill="white" opacity="0.7"/>
-    <ellipse cx="210" cy="80" rx="50" ry="18" fill="white" opacity="0.7"/>
-    
-    <ellipse cx="550" cy="120" rx="55" ry="18" fill="white" opacity="0.6"/>
-    <ellipse cx="580" cy="125" rx="65" ry="22" fill="white" opacity="0.6"/>
-    <ellipse cx="610" cy="120" rx="45" ry="16" fill="white" opacity="0.6"/>
-    
-    <ellipse cx="350" cy="60" rx="50" ry="15" fill="white" opacity="0.5"/>
-    <ellipse cx="380" cy="65" rx="60" ry="20" fill="white" opacity="0.5"/>
-  </g>
+  <!-- Sky background -->
+  <rect width="400" height="400" fill="url(#duckScene_skyGradient)" />
   
   <!-- Sun -->
-  <circle cx="650" cy="200" r="40" fill="#FDB813" opacity="0.8">
-    <animate attributeName="r" 
-             values="40;42;40" 
-             dur="4s" 
-             repeatCount="indefinite" />
+  <circle cx="320" cy="60" r="30" fill="url(#duckScene_sunGradient)">
+    <animate attributeName="r" values="30;32;30" dur="4s" repeatCount="indefinite" />
   </circle>
   
-  <!-- Water -->
-  <rect y="350" width="800" height="250" fill="url(#waterGradient)" filter="url(#turbulence)"/>
-  
-  <!-- Water waves -->
-  <g opacity="0.3">
-    <path d="M0,360 Q100,350 200,360 T400,360 T600,360 T800,360" 
-          stroke="#FFFFFF" 
-          stroke-width="2" 
-          fill="none">
-      <animate attributeName="d" 
-               values="M0,360 Q100,350 200,360 T400,360 T600,360 T800,360;
-                       M0,360 Q100,370 200,360 T400,360 T600,360 T800,360;
-                       M0,360 Q100,350 200,360 T400,360 T600,360 T800,360" 
-               dur="5s" 
-               repeatCount="indefinite" />
+  <!-- Sun rays -->
+  <g transform="translate(320, 60)">
+    <path d="M 0,-40 L 5,-50 L 0,-45 L -5,-50 Z" fill="#FFD700" opacity="0.7">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0" to="360" dur="60s" repeatCount="indefinite" />
     </path>
-    <path d="M0,380 Q100,370 200,380 T400,380 T600,380 T800,380" 
-          stroke="#FFFFFF" 
-          stroke-width="2" 
-          fill="none">
-      <animate attributeName="d" 
-               values="M0,380 Q100,370 200,380 T400,380 T600,380 T800,380;
-                       M0,380 Q100,390 200,380 T400,380 T600,380 T800,380;
-                       M0,380 Q100,370 200,380 T400,380 T600,380 T800,380" 
-               dur="6s" 
-               repeatCount="indefinite" />
+    <path d="M 0,-40 L 5,-50 L 0,-45 L -5,-50 Z" fill="#FFD700" opacity="0.7" transform="rotate(45)">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="45" to="405" dur="60s" repeatCount="indefinite" />
     </path>
-    <path d="M0,400 Q100,390 200,400 T400,400 T600,400 T800,400" 
-          stroke="#FFFFFF" 
-          stroke-width="2" 
-          fill="none">
-      <animate attributeName="d" 
-               values="M0,400 Q100,390 200,400 T400,400 T600,400 T800,400;
-                       M0,400 Q100,410 200,400 T400,400 T600,400 T800,400;
-                       M0,400 Q100,390 200,400 T400,400 T600,400 T800,400" 
-               dur="7s" 
-               repeatCount="indefinite" />
+    <path d="M 0,-40 L 5,-50 L 0,-45 L -5,-50 Z" fill="#FFD700" opacity="0.7" transform="rotate(90)">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="90" to="450" dur="60s" repeatCount="indefinite" />
+    </path>
+    <path d="M 0,-40 L 5,-50 L 0,-45 L -5,-50 Z" fill="#FFD700" opacity="0.7" transform="rotate(135)">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="135" to="495" dur="60s" repeatCount="indefinite" />
     </path>
   </g>
   
-  <!-- Duck group -->
-  <g id="duck">
-    <!-- Duck body -->
-    <ellipse cx="0" cy="0" rx="30" ry="20" fill="#FFFFFF">
-      <animateTransform
-        attributeName="transform"
-        type="rotate"
-        values="0 0 0;-2 0 0;0 0 0;2 0 0;0 0 0"
-        dur="4s"
-        repeatCount="indefinite" additive="sum" />
+  <!-- Clouds -->
+  <g id="duckScene_clouds">
+    <ellipse cx="100" cy="50" rx="25" ry="15" fill="white" opacity="0.7" filter="url(#duckScene_cloudFilter)">
+      <animate attributeName="cx" values="100;120;100" dur="20s" repeatCount="indefinite" />
+    </ellipse>
+    <ellipse cx="120" cy="55" rx="30" ry="18" fill="white" opacity="0.7" filter="url(#duckScene_cloudFilter)">
+      <animate attributeName="cx" values="120;140;120" dur="20s" repeatCount="indefinite" />
+    </ellipse>
+    <ellipse cx="140" cy="52" rx="25" ry="15" fill="white" opacity="0.7" filter="url(#duckScene_cloudFilter)">
+      <animate attributeName="cx" values="140;160;140" dur="20s" repeatCount="indefinite" />
     </ellipse>
     
+    <ellipse cx="250" cy="80" rx="20" ry="12" fill="white" opacity="0.6" filter="url(#duckScene_cloudFilter)">
+      <animate attributeName="cx" values="250;230;250" dur="25s" repeatCount="indefinite" />
+    </ellipse>
+    <ellipse cx="270" cy="85" rx="25" ry="15" fill="white" opacity="0.6" filter="url(#duckScene_cloudFilter)">
+      <animate attributeName="cx" values="270;250;270" dur="25s" repeatCount="indefinite" />
+    </ellipse>
+  </g>
+  
+  <!-- Water base -->
+  <rect x="0" y="200" width="400" height="200" fill="url(#duckScene_waterGradient)" filter="url(#duckScene_turbulence)" />
+  
+  <!-- Water waves -->
+  <path id="duckScene_wave1" d="M0,220 Q100,210 200,220 T400,220 L400,400 L0,400 Z" fill="url(#duckScene_waterGradient)" opacity="0.8">
+    <animate attributeName="d" 
+      values="M0,220 Q100,210 200,220 T400,220 L400,400 L0,400 Z;
+              M0,220 Q100,230 200,220 T400,220 L400,400 L0,400 Z;
+              M0,220 Q100,210 200,220 T400,220 L400,400 L0,400 Z" 
+      dur="4s" 
+      repeatCount="indefinite" />
+  </path>
+  
+  <path id="duckScene_wave2" d="M0,240 Q100,230 200,240 T400,240 L400,400 L0,400 Z" fill="url(#duckScene_waterGradient)" opacity="0.6">
+    <animate attributeName="d" 
+      values="M0,240 Q100,230 200,240 T400,240 L400,400 L0,400 Z;
+              M0,240 Q100,250 200,240 T400,240 L400,400 L0,400 Z;
+              M0,240 Q100,230 200,240 T400,240 L400,400 L0,400 Z" 
+      dur="5s" 
+      repeatCount="indefinite" />
+  </path>
+  
+  <!-- Duck -->
+  <g id="duckScene_duck1337" transform="translate(200, 250)">
+    <!-- Duck body -->
+    <ellipse cx="0" cy="0" rx="35" ry="25" fill="#FFD700" />
+    
     <!-- Duck head -->
-    <circle cx="20" cy="-5" r="12" fill="#FFFFFF"/>
+    <circle cx="-25" cy="-10" r="18" fill="#FFD700" />
     
     <!-- Duck beak -->
-    <path d="M30,-5 L38,-3 L30,-1 Z" fill="#FFA500"/>
+    <path d="M -43,-10 L -50,-8 L -43,-6 Z" fill="#FF8C00" />
     
     <!-- Duck eye -->
-    <circle cx="22" cy="-6" r="2" fill="#000000"/>
+    <circle cx="-30" cy="-12" r="3" fill="black" />
+    <circle cx="-29" cy="-13" r="1" fill="white" />
     
     <!-- Duck wing -->
-    <ellipse cx="-5" cy="0" rx="15" ry="10" fill="#E0E0E0">
-      <animateTransform additive="sum"
-        attributeName="transform"
-        type="rotate"
-        values="0 -5 0;-5 -5 0;0 -5 0;5 -5 0;0 -5 0"
-        dur="3s"
-        repeatCount="indefinite" additive="sum" />
+    <ellipse cx="5" cy="-5" rx="20" ry="15" fill="#FFC700" transform="rotate(-10 5 -5)">
+      <animate attributeName="rx" values="20;22;20" dur="2s" repeatCount="indefinite" />
     </ellipse>
     
     <!-- Duck tail -->
-    <path d="M-25,0 L-35,-8 L-32,0 L-35,8 Z" fill="#FFFFFF"/>
+    <path d="M 30,0 Q 40,-5 35,10 Q 32,5 25,0 Z" fill="#FFD700" />
     
-    <!-- Duck reflection in water -->
-    <g transform="scale(1,-0.4)" opacity="0.3">
-      <ellipse cx="0" cy="-180" rx="30" ry="20" fill="#FFFFFF"/>
-      <circle cx="20" cy="-185" r="12" fill="#FFFFFF"/>
-      <path d="M30,-185 L38,-183 L30,-181 Z" fill="#FFA500"/>
-      <circle cx="22" cy="-186" r="2" fill="#000000"/>
-      <ellipse cx="-5" cy="-180" rx="15" ry="10" fill="#E0E0E0"/>
-      <path d="M-25,-180 L-35,-188 L-32,-180 L-35,-172 Z" fill="#FFFFFF"/>
-    </g>
+    <!-- Water ripples around duck -->
+    <ellipse cx="0" cy="15" rx="40" ry="10" fill="none" stroke="#1E90FF" stroke-width="1" opacity="0.5">
+      <animate attributeName="rx" values="40;50;40" dur="3s" repeatCount="indefinite" />
+      <animate attributeName="ry" values="10;15;10" dur="3s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite" />
+    </ellipse>
+    
+    <!-- Duck swimming animation -->
+    <animateTransform attributeName="transform" 
+      type="translate" 
+      values="200,250; 180,260; 200,250; 220,260; 200,250" 
+      dur="8s" 
+      repeatCount="indefinite" />
   </g>
   
-  <!-- Moving duck -->
-  <use href="#duck" transform="translate(100, 400)" additive="sum">
-    <animateTransform
-      attributeName="transform"
-      type="translate"
-      values="100,400;700,420;100,400"
-      dur="30s"
-      repeatCount="indefinite" additive="sum" />
-  </use>
-  
-  <!-- Ripples around duck -->
-  <ellipse cx="0" cy="0" rx="40" ry="10" fill="none" stroke="#FFFFFF" stroke-width="1" opacity="0">
-    <animate attributeName="rx" 
-	additive="sum"
-             values="40;80;40" 
-             dur="4s" 
-             repeatCount="indefinite" />
-    <animate attributeName="ry" 
-	additive="sum"
-             values="10;20;10" 
-             dur="4s" 
-             repeatCount="indefinite" />
-    <animate attributeName="opacity" 
-	additive="sum"
-             values="0;0.5;0" 
-             dur="4s" 
-             repeatCount="indefinite" />
-    <animateTransform
-	additive="sum"
-      attributeName="transform"
-      type="translate"
-      values="100,400;700,420;100,400"
-      dur="30s"
-      repeatCount="indefinite" additive="sum" />
-  </ellipse>
-  
-  <!-- Distant trees -->
-  <g opacity="0.5">
-    <ellipse cx="50" cy="340" rx="15" ry="30" fill="#228B22"/>
-    <rect x="45" y="340" width="10" height="20" fill="#8B4513"/>
+  <!-- Reeds on the side -->
+  <g id="duckScene_reeds">
+    <path d="M 20,400 Q 18,350 20,300" stroke="#2E7D32" stroke-width="3" fill="none">
+      <animate attributeName="d" 
+        values="M 20,400 Q 18,350 20,300;
+                M 20,400 Q 22,350 20,300;
+                M 20,400 Q 18,350 20,300" 
+        dur="6s" 
+        repeatCount="indefinite" />
+    </path>
+    <path d="M 25,400 Q 23,360 25,320" stroke="#388E3C" stroke-width="3" fill="none">
+      <animate attributeName="d" 
+        values="M 25,400 Q 23,360 25,320;
+                M 25,400 Q 27,360 25,320;
+                M 25,400 Q 23,360 25,320" 
+        dur="5s" 
+        repeatCount="indefinite" />
+    </path>
+    <path d="M 30,400 Q 28,340 30,290" stroke="#2E7D32" stroke-width="3" fill="none">
+      <animate attributeName="d" 
+        values="M 30,400 Q 28,340 30,290;
+                M 30,400 Q 32,340 30,290;
+                M 30,400 Q 28,340 30,290" 
+        dur="7s" 
+        repeatCount="indefinite" />
+    </path>
     
-    <ellipse cx="750" cy="330" rx="20" ry="35" fill="#228B22"/>
-    <rect x="743" y="330" width="14" height="25" fill="#8B4513"/>
+    <path d="M 370,400 Q 372,350 370,300" stroke="#2E7D32" stroke-width="3" fill="none">
+      <animate attributeName="d" 
+        values="M 370,400 Q 372,350 370,300;
+                M 370,400 Q 368,350 370,300;
+                M 370,400 Q 372,350 370,300" 
+        dur="6s" 
+        repeatCount="indefinite" />
+    </path>
+    <path d="M 375,400 Q 377,360 375,320" stroke="#388E3C" stroke-width="3" fill="none">
+      <animate attributeName="d" 
+        values="M 375,400 Q 377,360 375,320;
+                M 375,400 Q 373,360 375,320;
+                M 375,400 Q 377,360 375,320" 
+        dur="5s" 
+        repeatCount="indefinite" />
+    </path>
   </g>
 </svg>
         </div>
 		
         <div class="cell">
             <div class="model-label">GLM 4.7</div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" aria-label="Animated scene of a duck swimming at sunset">
   <defs>
-    <!-- Filters for the "Bob Ross" soft look -->
-    <filter id="softBlur">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
-    </filter>
-    <filter id="cloudBlur">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
-    </filter>
-    <filter id="waterBlur">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" />
-    </filter>
-    
-    <!-- Sky Gradient: Sunset/Dusk -->
-    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#203a43;stop-opacity:1" /> <!-- Dark Slate -->
-      <stop offset="40%" style="stop-color:#7F4E36;stop-opacity:1" /> <!-- Sienna mix -->
-      <stop offset="70%" style="stop-color:#D4A373;stop-opacity:1" /> <!-- Sandy Brown -->
-      <stop offset="100%" style="stop-color:#FAE1DD;stop-opacity:1" /> <!-- Rose White -->
-    </linearGradient>
-
-    <!-- Water Gradient: Reflection of Sky -->
-    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#FAE1DD;stop-opacity:0.9" /> 
-      <stop offset="30%" style="stop-color:#D4A373;stop-opacity:0.8" />
-      <stop offset="60%" style="stop-color:#7F4E36;stop-opacity:0.9" />
-      <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
-    </linearGradient>
-
-    <!-- Duck Gradients -->
-    <linearGradient id="duckBodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#5D4037;stop-opacity:1" /> <!-- Brown -->
-      <stop offset="100%" style="stop-color:#3E2723;stop-opacity:1" /> <!-- Dark Brown -->
+    <!-- Gradients for Atmosphere -->
+    <linearGradient id="duckScene_skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#355C7D" />
+      <stop offset="50%" stop-color="#6C5B7B" />
+      <stop offset="100%" stop-color="#C06C84" />
     </linearGradient>
     
-    <radialGradient id="duckHeadGrad" cx="30%" cy="30%" r="70%">
-      <stop offset="0%" style="stop-color:#1B5E20;stop-opacity:1" /> <!-- Green -->
-      <stop offset="100%" style="stop-color:#003300;stop-opacity:1" /> <!-- Dark Green -->
-    </radialGradient>
-
-    <!-- Wave Pattern Definition -->
-    <pattern id="wavePattern" x="0" y="0" width="800" height="20" patternUnits="userSpaceOnUse">
-       <path d="M0 10 Q 25 20 50 10 T 100 10 T 150 10 T 200 10 T 250 10 T 300 10 T 350 10 T 400 10 T 450 10 T 500 10 T 550 10 T 600 10 T 650 10 T 700 10 T 750 10 T 800 10" 
-             fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-    </pattern>
+    <linearGradient id="duckScene_waterBackGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4CA1AF" />
+      <stop offset="100%" stop-color="#2C3E50" />
+    </linearGradient>
+    <linearGradient id="duckScene_waterFrontGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#56CCF2" />
+      <stop offset="100%" stop-color="#2F80ED" />
+    </linearGradient>
+    <!-- Sun Glow Filter -->
+    <filter id="duckScene_glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
-
-  <!-- 1. The Sky -->
-  <rect width="800" height="300" fill="url(#skyGradient)" />
-
-  <!-- The Sun (Alizarin Crimson & Cadmium Yellow vibe) -->
-  <circle cx="550" cy="250" r="45" fill="#FF7043" filter="url(#cloudBlur)" opacity="0.8" />
-  <circle cx="550" cy="250" r="30" fill="#FFCC80" opacity="0.9" />
-
-  <!-- Happy Little Clouds -->
-  <g filter="url(#cloudBlur)" opacity="0.6" fill="#FFFFFF">
-    <circle cx="100" cy="80" r="40" />
-    <circle cx="150" cy="100" r="50" />
-    <circle cx="60" cy="110" r="35" />
-    <!-- Animation for Cloud Drifting -->
-    <animateTransform attributeName="transform" type="translate" from="-20 0" to="20 0" dur="10s" repeatCount="indefinite" values="-20 0; 20 0; -20 0" additive="sum" />
-  </g>
-
-  <g filter="url(#cloudBlur)" opacity="0.4" fill="#FFFFFF" transform="translate(400, 50) scale(0.8)">
-    <circle cx="100" cy="80" r="40" />
-    <circle cx="150" cy="100" r="50" />
-    <circle cx="60" cy="110" r="35" />
-    <animateTransform attributeName="transform" type="translate" from="0 0" to="30 0" dur="14s" repeatCount="indefinite" values="0 0; 30 0; 0 0" additive="sum" />
-  </g>
-
-  <!-- Distant Mountains (Midnight Blue/Black) -->
-  <path d="M0 300 L150 180 L300 300 L450 220 L600 300 L800 300 Z" fill="#37474F" opacity="0.3" filter="url(#softBlur)" />
-  <path d="M-50 300 L100 240 L250 300 L400 250 L550 300 L850 300 Z" fill="#263238" opacity="0.5" filter="url(#softBlur)" />
-
-  <!-- 2. The Body of Water -->
-  <rect y="300" width="800" height="200" fill="url(#waterGradient)" />
-
-  <!-- Water Reflections/Ripples -->
-  <rect y="300" width="800" height="200" fill="url(#wavePattern)" opacity="0.5">
-     <animateTransform attributeName="transform" type="translate" from="0 0" to="-800 0" dur="8s" repeatCount="indefinite" additive="sum" />
-  </rect>
+  <!-- 1. Sky and Background Ambience -->
+  <rect width="400" height="400" fill="url(#duckScene_skyGradient)" />
   
-  <rect y="330" width="800" height="200" fill="url(#wavePattern)" opacity="0.3" transform="scale(1.5, 1)">
-     <animateTransform attributeName="transform" type="translate" from="-100 0" to="-900 0" dur="12s" repeatCount="indefinite" additive="sum" />
-  </rect>
-
-  <!-- 3. The Duck (Protagonist) -->
-  <!-- We put the duck in a group to animate it bobbing on the water -->
-  <g transform="translate(250, 315)">
+  <!-- Setting Sun -->
+  <circle cx="320" cy="100" r="25" fill="#FFE66D" filter="url(#duckScene_glow)" opacity="0.9">
+    <animate attributeName="cy" values="100;102;100" dur="5s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0.9;0.8;0.9" dur="3s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Distant Mountains (Static Silhouette) -->
+  <path d="M0,400 L0,280 L60,220 L120,290 L180,240 L250,310 L320,250 L400,320 L400,400 Z" fill="#2c3e50" opacity="0.3" />
+  <!-- 2. Water Ecosystem - Back Layer (Slower, deeper) -->
+  <path id="duckScene_backWave" fill="url(#duckScene_waterBackGradient)" opacity="0.8">
+    <animate attributeName="d" 
+      dur="7s" 
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+      values="
+        M0,300 Q100,280 200,300 T400,300 V400 H0 Z;
+        M0,300 Q100,320 200,300 T400,300 V400 H0 Z;
+        M0,300 Q100,280 200,300 T400,300 V400 H0 Z"
+    />
+  </path>
+  <!-- 3. The Duck Protagonist -->
+  <!-- Base Transform sets the initial position -->
+  <g id="duckScene_duckGroup" transform="translate(200, 285)">
     
-    <!-- Bobbing Animation -->
-    <animateTransform attributeName="transform" type="translate" values="250 315; 250 320; 250 315" dur="3s" repeatCount="indefinite" additive="sum"/>
-
-    <!-- Duck Reflection (Upside down, blurred, lower opacity) -->
-    <g transform="translate(0, 35) scale(1, -1)" opacity="0.3" filter="url(#waterBlur)">
-       <!-- Same body shapes as below, just for reflection -->
-       <ellipse cx="0" cy="0" rx="35" ry="18" fill="#3E2723" />
-       <path d="M15 -10 Q 35 -30 30 -55 Q 25 -75 10 -65" fill="none" stroke="#3E2723" stroke-width="10" stroke-linecap="round"/>
-       <circle cx="10" cy="-60" r="13" fill="#003300" />
-    </g>
-
-    <!-- Actual Duck Shapes -->
-    <!-- Body -->
-    <ellipse cx="0" cy="0" rx="35" ry="18" fill="url(#duckBodyGrad)" filter="url(#softBlur)" />
+    <!-- Bobbing Animation: Adds relative Y offset (0 to 5px) -->
+    <animateTransform attributeName="transform" type="translate"
+      values="0,0; 0,5; 0,0"
+      dur="3s"
+      repeatCount="indefinite"
+      additive="sum" />
+      
+    <!-- Drift Animation: Adds relative X offset (0 to -5px) -->
+    <animateTransform attributeName="transform" type="translate"
+      values="0,0; -5,0; 0,0"
+      dur="8s"
+      repeatCount="indefinite"
+      additive="sum"/>
+    <!-- Duck Body -->
+    <ellipse cx="0" cy="0" rx="35" ry="22" fill="#fdfefe" />
     
-    <!-- Wing detail -->
-    <path d="M-10 -5 Q 0 -15 15 -5 L 10 5 Z" fill="#4E342E" opacity="0.8" />
-
-    <!-- Neck and Head connection -->
-    <path d="M15 -10 Q 35 -30 30 -55 Q 25 -75 10 -65" 
-          fill="none" stroke="url(#duckBodyGrad)" stroke-width="14" stroke-linecap="round" />
-
-    <!-- Head -->
-    <circle cx="12" cy="-62" r="14" fill="url(#duckHeadGrad)" />
+    <!-- Duck Head -->
+    <circle cx="25" cy="-15" r="16" fill="#fdfefe" />
     
-    <!-- White Neck Ring (Mallard characteristic) -->
-    <path d="M18 -50 Q 28 -52 28 -45" fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.8" />
-
-    <!-- Beak -->
-    <path d="M2 -62 L -8 -60 L 2 -58 Z" fill="#FFD54F" />
+    <!-- Duck Beak -->
+    <path d="M38,-15 L55,-12 L38,-9 Z" fill="#e67e22" />
     
-    <!-- Eye -->
-    <circle cx="15" cy="-65" r="1.5" fill="#000000" />
-
-    <!-- Water disturbance around the duck -->
-    <ellipse cx="0" cy="10" rx="40" ry="5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
-      <animate attributeName="rx" values="40; 50; 40" dur="3s" repeatCount="indefinite" />
-      <animate attributeName="opacity" values="0.4; 0.1; 0.4" dur="3s" repeatCount="indefinite" />
-    </ellipse>
+    <!-- Duck Eye -->
+    <circle cx="32" cy="-18" r="2" fill="#2c3e50" />
+    
+    <!-- Duck Wing (Subtle Flap) -->
+    <path d="M-10,-5 Q5,-18 15,-5 T-10,-5" fill="#ecf0f1">
+      <animate attributeName="d" 
+        values="M-10,-5 Q5,-18 15,-5 T-10,-5; M-10,-5 Q5,-12 15,-5 T-10,-5; M-10,-5 Q5,-18 15,-5 T-10,-5"
+        dur="1.5s"
+        repeatCount="indefinite" />
+    </path>
+    
+    <!-- Water Line Highlight -->
+    <path d="M-25,15 Q0,20 25,15" stroke="#bdc3c7" stroke-width="2" fill="none" opacity="0.5" />
   </g>
-</svg>>
+  <!-- 4. Water Ecosystem - Front Layer (Faster, lighter, overlapping duck) -->
+  <path id="duckScene_frontWave" fill="url(#duckScene_waterFrontGradient)" opacity="0.85">
+    <animate attributeName="d" 
+      dur="4s" 
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+      values="
+        M0,320 Q80,300 200,320 T400,320 V400 H0 Z;
+        M0,320 Q80,340 200,320 T400,320 V400 H0 Z;
+        M0,320 Q80,300 200,320 T400,320 V400 H0 Z"
+    />
+  </path>
+</svg>
         </div>
 		
         <div class="cell">
             <div class="model-label">GPT-OSS 120B</div>
-            <svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 800 600"
-     width="800" height="600">
-  <!-- ==================== SKY ==================== -->
+            svg
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="400" height="400" viewBox="0 0 400 400"
+     id="duckScene_root">
+  <!-- ==================== SKY & BACKGROUND ==================== -->
   <defs>
     <!-- Sky gradient -->
-    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"  stop-color="#87CEEB"/>
-      <stop offset="100%" stop-color="#F0E68C"/>
+    <linearGradient id="duckScene_skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#87ceeb"/>
+      <stop offset="100%" stop-color="#b0e0e6"/>
     </linearGradient>
-    <!-- Water gradient -->
-    <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"   stop-color="#4A90E2"/>
-      <stop offset="100%" stop-color="#1E4A8B"/>
+    <!-- Water gradient (slightly deeper) -->
+    <linearGradient id="duckScene_waterGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#4da6ff"/>
+      <stop offset="100%" stop-color="#0066cc"/>
     </linearGradient>
-    <!-- Wave pattern (repeating sine wave) -->
-    <pattern id="wavePattern" x="0" y="0" width="200" height="40" patternUnits="userSpaceOnUse">
-      <path d="M0 20 Q25 0 50 20 T100 20 T150 20 T200 20"
-            fill="none" stroke="#B0D8FF" stroke-width="8"/>
-    </pattern>
-    <!-- Duck shape (simple but recognizable) -->
-    <g id="duck">
-      <!-- Body -->
-      <ellipse cx="0" cy="0" rx="30" ry="20" fill="#FFC93C"/>
-      <!-- Head -->
-      <circle   cx="-25" cy="-15" r="12" fill="#FFC93C"/>
-      <!-- Beak -->
-      <polygon points="-35,-18 -45,-15 -35,-12" fill="#FF9F00"/>
-      <!-- Eye -->
-      <circle   cx="-30" cy="-20" r="2" fill="#000"/>
-      <!-- Wing (a simple curved shape) -->
-      <path d="M0 0 Q10 5 20 0 Q10 -5 0 0" fill="#E6B800"/>
-    </g>
+    <!-- Duck body gradient -->
+    <radialGradient id="duckScene_duckBodyGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%"   stop-color="#ffdd55"/>
+      <stop offset="100%" stop-color="#ffbb33"/>
+    </radialGradient>
+    <!-- Path for the duck’s motion (following the water surface) -->
+    <path id="duckScene_duckPath"
+          d="M 30 280
+             C 80 260, 120 260, 170 280
+             C 220 300, 260 300, 310 280
+             C 360 260, 390 260, 410 280"
+          fill="none"/>
   </defs>
-  <!-- Sky background -->
-  <rect x="0" y="0" width="800" height="400" fill="url(#skyGrad)"/>
-  <!-- Horizon line -->
-  <line x1="0" y1="400" x2="800" y2="400"
-        stroke="#A67C52" stroke-width="3"/>
-  <!-- Water body -->
-  <rect x="0" y="400" width="800" height="200"
-        fill="url(#waterGrad)"/>
-  <!-- Animated waves -->
-  <g id="waves">
-    <rect x="0" y="380" width="800" height="40"
-          fill="url(#wavePattern)" opacity="0.6">
-      <!-- Move the wave pattern horizontally to give a sense of flow -->
-      <animateTransform attributeName="transform"
-                        type="translate"
-                        from="0 0" to="-200 0"
-                        dur="6s"
-                        repeatCount="indefinite" additive="sum" />
-    </rect>
-    <rect x="0" y="420" width="800" height="40"
-          fill="url(#wavePattern)" opacity="0.4">
-      <animateTransform attributeName="transform"
-                        type="translate"
-                        from="-200 0" to="0 0"
-                        dur="8s"
-                        repeatCount="indefinite" additive="sum" />
-    </rect>
+  <!-- Sky -->
+  <rect width="400" height="400" fill="url(#duckScene_skyGrad)"/>
+  <!-- Distant hills (simple silhouettes) -->
+  <g id="duckScene_hills" fill="#2e8b57" opacity="0.6">
+    <path d="M0 340 Q50 300 100 340 T200 340 T300 340 T400 340 L400 400 L0 400 Z"/>
   </g>
-  <!-- The duck – it swims left‑to‑right while bobbing up‑and‑down -->
-  <g id="duckSwim">
-    <use href="#duck"/>
-    <!-- Horizontal travel across the water -->
+  <!-- ==================== WATER ==================== -->
+  <g id="duckScene_waterGroup">
+    <!-- Animated water surface -->
+    <path id="duckScene_water"
+          d="M0 300 
+             Q100 280 200 300 
+             T400 300 
+             L400 400 L0 400 Z"
+          fill="url(#duckScene_waterGrad)">
+      <!-- Wave animation – morph between two slightly different wave shapes -->
+      <animate attributeName="d"
+               dur="4s"
+               repeatCount="indefinite"
+               values="
+                 M0 300 Q100 280 200 300 T400 300 L400 400 L0 400 Z;
+                 M0 300 Q100 320 200 300 T400 300 L400 400 L0 400 Z;
+                 M0 300 Q100 280 200 300 T400 300 L400 400 L0 400 Z"
+               keyTimes="0;0.5;1"/>
+    </path>
+  </g>
+  <!-- ==================== DUCK (PROTAGONIST) ==================== -->
+  <g id="duckScene_duck"
+     fill="url(#duckScene_duckBodyGrad)"
+     stroke="#c28e0e"
+     stroke-width="1">
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="20" ry="14"/>
+    <!-- Head -->
+    <circle cx="0" cy="-18" r="12"/>
+    <!-- Beak -->
+    <polygon points="-4,-22 8,-22 2,-12" fill="#ffaa33" stroke="none"/>
+    <!-- Eye -->
+    <circle cx="-5" cy="-20" r="2" fill="#000"/>
+    <!-- Animation: follow the water path and bob up/down -->
+    <animateMotion dur="8s" repeatCount="indefinite" rotate="auto">
+      <mpath xlink:href="#duckScene_duckPath"/>
+    </animateMotion>
+    <!-- Bobbing (vertical sinusoid) -->
     <animateTransform attributeName="transform"
                       type="translate"
-                      from="-100 0"
-                      to="900 0"
-                      dur="20s"
-                      repeatCount="indefinite" additive="sum" />
-    <!-- Gentle bobbing to mimic the water’s rise and fall -->
-    <animateTransform attributeName="transform"
                       additive="sum"
-                      type="translate"
-                      values="0 0; 0 -8; 0 0"
-                      keyTimes="0;0.5;1"
-                      dur="4s"
-                      repeatCount="indefinite" additive="sum" />
+                      dur="2s"
+                      repeatCount="indefinite"
+                      values="0,-2;0,2;0,-2"
+                      keyTimes="0;0.5;1"/>
   </g>
+  <!-- ==================== SUN (optional ambience) ==================== -->
+  <circle cx="340" cy="70" r="30" fill="#ffdd55" opacity="0.8">
+    <animate attributeName="r"
+             dur="6s"
+             repeatCount="indefinite"
+             values="30;35;30"
+             keyTimes="0;0.5;1"/>
+  </circle>
 </svg>
         </div>
 		
@@ -970,146 +935,54 @@
 		
         <div class="cell">
             <div class="model-label">Gemini 3 flash</div>
-            <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
-  <rect width="800" height="800" fill="#fdbb2d">
-    <animate attributeName="fill" values="#fdbb2d;#22c1c3;#fdbb2d" dur="20s" repeatCount="indefinite" />
-  </rect>
-  
-  <circle cx="400" cy="150" r="50" fill="#fff7e6">
-    <animate attributeName="cy" values="150;100;150" dur="10s" repeatCount="indefinite" />
-    <animate attributeName="fill" values="#fff7e6;#ffcc33;#fff7e6" dur="20s" repeatCount="indefinite" />
-  </circle>
-
-  <path d="M0 600 L200 400 L400 600 L600 350 L800 600 V800 H0 Z" fill="#2d5a27" opacity="0.4" />
-
-  <path d="M0 650 Q 200 600 400 650 T 800 650 V 800 H 0 Z" fill="#4fa4ff" opacity="0.6">
-    <animate attributeName="d" 
-      values="M0 650 Q 200 600 400 650 T 800 650 V 800 H 0 Z;
-              M0 650 Q 200 700 400 650 T 800 650 V 800 H 0 Z;
-              M0 650 Q 200 600 400 650 T 800 650 V 800 H 0 Z" 
-      dur="5s" repeatCount="indefinite" />
-  </path>
-
-  <g id="duck">
-    <animateTransform attributeName="transform" type="translate" 
-      values="100 620; 700 620; 100 620" dur="15s" repeatCount="indefinite" />
-    
-    <g>
-      <animateTransform attributeName="transform" type="translate" 
-        values="0 0; 0 -15; 0 0" dur="2s" repeatCount="indefinite" />
-      
-      <ellipse cx="0" cy="0" rx="40" ry="25" fill="#f4c430" />
-      <circle cx="35" cy="-25" r="20" fill="#f4c430" />
-      <circle cx="45" cy="-30" r="2.5" fill="black" />
-      <path d="M50 -25 L70 -20 L50 -15 Z" fill="#ff6600" />
-      <ellipse cx="-5" cy="0" rx="20" ry="10" fill="#e5b82d" />
-    </g>
-  </g>
-
-  <path d="M0 700 Q 200 750 400 700 T 800 700 V 800 H 0 Z" fill="#0077be" opacity="0.8">
-    <animate attributeName="d" 
-      values="M0 700 Q 200 750 400 700 T 800 700 V 800 H 0 Z;
-              M0 700 Q 200 650 400 700 T 800 700 V 800 H 0 Z;
-              M0 700 Q 200 750 400 700 T 800 700 V 800 H 0 Z" 
-      dur="4s" repeatCount="indefinite" />
-  </path>
-</svg>
-        </div>
-		
-        <div class="cell">
-            <div class="model-label">Gemini 3.0 Pro</div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+            <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" id="duckScene_root_99">
   <defs>
-    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#4facfe">
-        <animate attributeName="stop-color" values="#4facfe;#ff9966;#4facfe" dur="20s" repeatCount="indefinite" />
-      </stop>
-      <stop offset="100%" stop-color="#00f2fe">
-        <animate attributeName="stop-color" values="#00f2fe;#ff5e62;#00f2fe" dur="20s" repeatCount="indefinite" />
-      </stop>
+    <linearGradient id="duckScene_sky_grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2c3e50" />
+      <stop offset="100%" stop-color="#fd746c" />
     </linearGradient>
 
-    <radialGradient id="sunGradient">
-      <stop offset="0%" stop-color="#fff6d5" />
-      <stop offset="100%" stop-color="#ffcc33" />
-    </radialGradient>
-
-    <linearGradient id="waterBack" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#2c3e50" stop-opacity="0.8"/>
-      <stop offset="100%" stop-color="#3498db" stop-opacity="0.8"/>
-    </linearGradient>
-    <linearGradient id="waterMid" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#2980b9" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#6dd5fa" stop-opacity="0.9"/>
-    </linearGradient>
-    <linearGradient id="waterFront" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#00c6fb" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="#005bea" stop-opacity="0.95"/>
+    <linearGradient id="duckScene_water_grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e3c72" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#2a5298" />
     </linearGradient>
 
-    <linearGradient id="duckBody" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" />
-      <stop offset="100%" stop-color="#f0f0f0" />
-    </linearGradient>
+    <style>
+      @keyframes duckScene_wave_move {
+        0%, 100% { transform: translateX(-20px) translateY(0px); }
+        50% { transform: translateX(20px) translateY(5px); }
+      }
+      @keyframes duckScene_duck_bob {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-8px) rotate(2deg); }
+      }
+      @keyframes duckScene_sun_glow {
+        0%, 100% { opacity: 0.6; r: 40; }
+        50% { opacity: 0.8; r: 45; }
+      }
+      .duckScene_wave { animation: duckScene_wave_move 4s ease-in-out infinite; }
+      #duckScene_duck_group { animation: duckScene_duck_bob 3s ease-in-out infinite; }
+    </style>
   </defs>
 
-  <rect width="800" height="800" fill="url(#skyGradient)" />
-
-  <circle cx="600" cy="150" r="60" fill="url(#sunGradient)" opacity="0.9">
-    <animate attributeName="cy" values="150;300;150" dur="20s" repeatCount="indefinite" />
+  <rect width="400" height="400" fill="url(#duckScene_sky_grad)" />
+  <circle cx="200" cy="180" r="40" fill="#fbc531" opacity="0.6">
+    <animate attributeName="r" values="40;45;40" dur="5s" repeatCount="indefinite" />
   </circle>
 
-  <g opacity="0.8" fill="#ffffff">
-    <path d="M50,150 Q70,120 90,150 T130,150 T170,150 T200,150 L50,150" transform="translate(-200, 0)">
-      <animateTransform attributeName="transform" type="translate" from="-200 0" to="900 0" dur="35s" repeatCount="indefinite" />
-    </path>
-    <path d="M400,100 Q420,70 440,100 T480,100 T520,100 T550,100 L400,100" transform="translate(0, 0)">
-      <animateTransform attributeName="transform" type="translate" from="0 20" to="900 20" dur="45s" repeatCount="indefinite" />
-    </path>
-    <path d="M600,200 Q620,170 640,200 T680,200 T720,200 L600,200" transform="translate(500, 50)">
-      <animateTransform attributeName="transform" type="translate" from="500 50" to="900 50" dur="25s" repeatCount="indefinite" />
-    </path>
+  <path d="M0 250 L100 180 L200 250 L300 150 L400 250 V400 H0 Z" fill="#1a252f" />
+
+  <path class="duckScene_wave" d="M-50 260 Q 50 240 150 260 T 350 260 T 550 260 V400 H-50 Z" fill="url(#duckScene_water_grad)" style="animation-delay: -1s;" />
+
+  <g id="duckScene_duck_group">
+    <ellipse cx="200" cy="270" rx="25" ry="18" fill="#f1c40f" />
+    <circle cx="220" cy="250" r="12" fill="#f1c40f" />
+    <circle cx="225" cy="248" r="1.5" fill="#2c3e50" />
+    <path d="M232 250 L242 253 L232 256 Z" fill="#e67e22" />
+    <ellipse cx="195" cy="272" rx="12" ry="7" fill="#f39c12" />
   </g>
 
-  <g transform="translate(0, 450)">
-    <path fill="url(#waterBack)" d="M-800,50 Q-600,0 -400,50 T0,50 T400,50 T800,50 T1200,50 T1600,50 V400 H-800 Z">
-      <animateTransform attributeName="transform" type="translate" from="0,0" to="-800,0" dur="12s" repeatCount="indefinite" linear="true"/>
-    </path>
-  </g>
-
-  <g transform="translate(0, 480)">
-    <path fill="url(#waterMid)" d="M-800,50 Q-600,100 -400,50 T0,50 T400,50 T800,50 T1200,50 T1600,50 V400 H-800 Z">
-      <animateTransform attributeName="transform" type="translate" from="-400,0" to="-1200,0" dur="8s" repeatCount="indefinite" linear="true"/>
-    </path>
-  </g>
-
-  <g transform="translate(400, 530)">
-    <animateTransform attributeName="transform" type="translate" values="400,530; 400,545; 400,530" dur="3s" keyTimes="0;0.5;1" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1" />
-    
-    <animateTransform attributeName="transform" type="rotate" values="-2 0 0; 2 0 0; -2 0 0" dur="3.5s" additive="sum" repeatCount="indefinite" />
-
-    <g transform="scale(0.8)"> <path d="M-60,0 C-60,40 60,40 90,-20 C80,-10 60,0 40,0 Z" fill="url(#duckBody)" stroke="#ddd" stroke-width="1"/>
-      <ellipse cx="0" cy="-10" rx="65" ry="35" fill="url(#duckBody)" />
-      
-      <path d="M-20,-5 Q10,-5 30,-20 Q40,0 10,15 Q-10,15 -20,-5" fill="#e6e6e6" />
-
-      <path d="M30,-20 Q35,-60 60,-70 Q85,-60 80,-20" fill="url(#duckBody)" stroke="none"/>
-      <circle cx="60" cy="-65" r="22" fill="url(#duckBody)" />
-
-      <path d="M78,-60 Q100,-65 110,-55 Q100,-45 78,-55" fill="#ff9900" />
-      
-      <circle cx="65" cy="-70" r="3" fill="#000">
-        <animate attributeName="ry" values="3;0.1;3" dur="4s" begin="2s" repeatCount="indefinite" />
-      </circle>
-    </g>
-  </g>
-
-  <g transform="translate(0, 540)">
-    <path fill="url(#waterFront)" d="M-800,20 Q-600,-20 -400,20 T0,20 T400,20 T800,20 T1200,20 T1600,20 V400 H-800 Z">
-      <animateTransform attributeName="transform" type="translate" from="0,0" to="-800,0" dur="6s" repeatCount="indefinite" linear="true"/>
-    </path>
-  </g>
-
+  <path class="duckScene_wave" d="M-50 280 Q 50 260 150 280 T 350 280 T 550 280 V400 H-50 Z" fill="url(#duckScene_water_grad)" opacity="0.6" />
 </svg>
         </div>
 		
@@ -2518,48 +2391,876 @@
 </svg>
         </div>
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-    </div>
-	
+<div class="cell">
+            <div class="model-label">Gemini 3.0 pro</div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4facfe">
+        <animate attributeName="stop-color" values="#4facfe;#ff9966;#4facfe" dur="20s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#00f2fe">
+        <animate attributeName="stop-color" values="#00f2fe;#ff5e62;#00f2fe" dur="20s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
 
+    <radialGradient id="sunGradient">
+      <stop offset="0%" stop-color="#fff6d5" />
+      <stop offset="100%" stop-color="#ffcc33" />
+    </radialGradient>
+
+    <linearGradient id="waterBack" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2c3e50" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#3498db" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="waterMid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2980b9" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#6dd5fa" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="waterFront" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00c6fb" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#005bea" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <linearGradient id="duckBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f0f0f0" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#skyGradient)" />
+
+  <circle cx="600" cy="150" r="60" fill="url(#sunGradient)" opacity="0.9">
+    <animate attributeName="cy" values="150;300;150" dur="20s" repeatCount="indefinite" />
+  </circle>
+
+  <g opacity="0.8" fill="#ffffff">
+    <path d="M50,150 Q70,120 90,150 T130,150 T170,150 T200,150 L50,150" transform="translate(-200, 0)">
+      <animateTransform attributeName="transform" type="translate" from="-200 0" to="900 0" dur="35s" repeatCount="indefinite" />
+    </path>
+    <path d="M400,100 Q420,70 440,100 T480,100 T520,100 T550,100 L400,100" transform="translate(0, 0)">
+      <animateTransform attributeName="transform" type="translate" from="0 20" to="900 20" dur="45s" repeatCount="indefinite" />
+    </path>
+    <path d="M600,200 Q620,170 640,200 T680,200 T720,200 L600,200" transform="translate(500, 50)">
+      <animateTransform attributeName="transform" type="translate" from="500 50" to="900 50" dur="25s" repeatCount="indefinite" />
+    </path>
+  </g>
+
+  <g transform="translate(0, 450)">
+    <path fill="url(#waterBack)" d="M-800,50 Q-600,0 -400,50 T0,50 T400,50 T800,50 T1200,50 T1600,50 V400 H-800 Z">
+      <animateTransform attributeName="transform" type="translate" from="0,0" to="-800,0" dur="12s" repeatCount="indefinite" linear="true"/>
+    </path>
+  </g>
+
+  <g transform="translate(0, 480)">
+    <path fill="url(#waterMid)" d="M-800,50 Q-600,100 -400,50 T0,50 T400,50 T800,50 T1200,50 T1600,50 V400 H-800 Z">
+      <animateTransform attributeName="transform" type="translate" from="-400,0" to="-1200,0" dur="8s" repeatCount="indefinite" linear="true"/>
+    </path>
+  </g>
+
+  <g transform="translate(400, 530)">
+    <animateTransform attributeName="transform" type="translate" values="400,530; 400,545; 400,530" dur="3s" keyTimes="0;0.5;1" repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1" />
+    
+    <animateTransform attributeName="transform" type="rotate" values="-2 0 0; 2 0 0; -2 0 0" dur="3.5s" additive="sum" repeatCount="indefinite" />
+
+    <g transform="scale(0.8)"> <path d="M-60,0 C-60,40 60,40 90,-20 C80,-10 60,0 40,0 Z" fill="url(#duckBody)" stroke="#ddd" stroke-width="1"/>
+      <ellipse cx="0" cy="-10" rx="65" ry="35" fill="url(#duckBody)" />
+      
+      <path d="M-20,-5 Q10,-5 30,-20 Q40,0 10,15 Q-10,15 -20,-5" fill="#e6e6e6" />
+
+      <path d="M30,-20 Q35,-60 60,-70 Q85,-60 80,-20" fill="url(#duckBody)" stroke="none"/>
+      <circle cx="60" cy="-65" r="22" fill="url(#duckBody)" />
+
+      <path d="M78,-60 Q100,-65 110,-55 Q100,-45 78,-55" fill="#ff9900" />
+      
+      <circle cx="65" cy="-70" r="3" fill="#000">
+        <animate attributeName="ry" values="3;0.1;3" dur="4s" begin="2s" repeatCount="indefinite" />
+      </circle>
+    </g>
+  </g>
+
+  <g transform="translate(0, 540)">
+    <path fill="url(#waterFront)" d="M-800,20 Q-600,-20 -400,20 T0,20 T400,20 T800,20 T1200,20 T1600,20 V400 H-800 Z">
+      <animateTransform attributeName="transform" type="translate" from="0,0" to="-800,0" dur="6s" repeatCount="indefinite" linear="true"/>
+    </path>
+  </g>
+
+</svg>
+        </div>
+		
+<div class="cell">
+            <div class="model-label">Qwen 3 Max thinking</div>
+            <svg width="800" height="800" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Sky gradient: dawn colors -->
+    <linearGradient id="duckScene_skyGrad_5113" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a2a" />
+      <stop offset="40%" stop-color="#4a0080" />
+      <stop offset="70%" stop-color="#8a2be2" />
+      <stop offset="100%" stop-color="#4fc3f7" />
+    </linearGradient>
+    
+    <!-- Water gradient: depth effect -->
+    <linearGradient id="duckScene_waterGrad_5113" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#013366" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#001f3f" stop-opacity="0.95" />
+    </linearGradient>
+    
+    <!-- Reeds pattern for background -->
+    <pattern id="duckScene_reedsPattern_5113" width="100" height="150" patternUnits="userSpaceOnUse">
+      <g fill="#2e7d32" opacity="0.7">
+        <path d="M20,150 Q30,100 25,50 Q20,20 10,0 L15,0 Q25,25 30,50 Q35,90 25,150 Z" />
+        <path d="M60,150 Q75,110 70,60 Q65,25 55,5 L60,5 Q70,30 75,60 Q85,110 75,150 Z" />
+        <path d="M90,150 Q100,120 95,80 Q90,40 85,15 L90,15 Q95,45 100,80 Q105,125 95,150 Z" />
+      </g>
+    </pattern>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="800" height="800" fill="url(#duckScene_skyGrad_5113)" />
+  
+  <!-- Distant hills silhouette -->
+  <path d="M0,500 C150,450 300,480 400,460 C500,440 650,470 800,450 L800,800 L0,800 Z" fill="#1a237e" opacity="0.3" />
+  
+  <!-- Background reeds -->
+  <rect x="0" y="400" width="800" height="400" fill="url(#duckScene_reedsPattern_5113)" opacity="0.25" />
+  
+  <!-- Water base with gradient -->
+  <rect id="duckScene_waterBase_5113" x="0" y="400" width="800" height="400" fill="url(#duckScene_waterGrad_5113)" />
+  
+  <!-- Wave layer 1 (deep waves) -->
+  <g id="duckScene_waveGroup1_5113" opacity="0.6">
+    <path d="M0,400 L0,450 L800,450 L800,400 
+             C750,390 700,410 650,400 
+             C600,390 550,410 500,400 
+             C450,390 400,410 350,400 
+             C300,390 250,410 200,400 
+             C150,390 100,410 50,400 
+             C25,395 10,398 0,400 Z" fill="#4fc3f7">
+      <animateTransform 
+        attributeName="transform" 
+        type="translate" 
+        from="0 0" 
+        to="-50 5" 
+        dur="12s" 
+        repeatCount="indefinite" 
+        calcMode="spline" 
+        keySplines="0.5 0 0.5 1"/>
+    </path>
+  </g>
+  
+  <!-- Wave layer 2 (surface ripples) -->
+  <g id="duckScene_waveGroup2_5113" opacity="0.8">
+    <path d="M0,400 L0,430 L800,430 L800,400 
+             C775,395 750,405 725,400 
+             C700,395 675,405 650,400 
+             C625,395 600,405 575,400 
+             C550,395 525,405 500,400 
+             C475,395 450,405 425,400 
+             C400,395 375,405 350,400 
+             C325,395 300,405 275,400 
+             C250,395 225,405 200,400 
+             C175,395 150,405 125,400 
+             C100,395 75,405 50,400 
+             C37,397 25,403 12,400 
+             C6,399 3,401 0,400 Z" fill="#bbdefb">
+      <animateTransform 
+        attributeName="transform" 
+        type="translate" 
+        from="0 0" 
+        to="-100 -3" 
+        dur="8s" 
+        repeatCount="indefinite" 
+        calcMode="spline" 
+        keySplines="0.5 0 0.5 1"/>
+    </path>
+  </g>
+  
+  <!-- Duck group with swimming animation -->
+  <g id="duckScene_duckGroup_5113">
+    <!-- Horizontal movement across canvas -->
+    <animateTransform 
+      attributeName="transform" 
+      type="translate" 
+      values="-120,0; 920,0" 
+      dur="45s" 
+      repeatCount="indefinite" 
+      calcMode="linear"/>
+    
+    <!-- Vertical bobbing animation -->
+    <animateTransform 
+      attributeName="transform" 
+      type="translate" 
+      values="0,0; 0,8; 0,0; 0,-5; 0,0" 
+      dur="4s" 
+      repeatCount="indefinite" 
+      additive="sum" 
+      calcMode="spline" 
+      keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1"/>
+    
+    <!-- Duck body -->
+    <ellipse cx="400" cy="395" rx="35" ry="22" fill="#ffd54f" />
+    
+    <!-- Duck head -->
+    <circle cx="455" cy="380" r="18" fill="#ffca28" />
+    
+    <!-- Duck beak -->
+    <path d="M470,380 L485,385 L485,375 Z" fill="#ff6d00" />
+    
+    <!-- Duck eye -->
+    <circle cx="462" cy="375" r="3" fill="#000000" />
+    
+    <!-- Duck wing -->
+    <ellipse cx="415" cy="400" rx="15" ry="10" fill="#ffc107" opacity="0.85">
+      <animateTransform 
+        attributeName="transform" 
+        type="rotate" 
+        from="0 415 400" 
+        to="5 415 400" 
+        dur="1.5s" 
+        repeatCount="indefinite" 
+        additive="sum"/>
+    </ellipse>
+    
+    <!-- Water disturbance ripples -->
+    <g opacity="0.7">
+      <circle cx="380" cy="405" r="8" fill="#bbdefb">
+        <animate attributeName="r" values="8;15;8" dur="1.5s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.7;0.2;0" dur="1.5s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="365" cy="410" r="5" fill="#bbdefb">
+        <animate attributeName="r" values="5;10;5" dur="1.2s" repeatCount="indefinite" begin="0.3s"/>
+        <animate attributeName="opacity" values="0.7;0.2;0" dur="1.2s" repeatCount="indefinite" begin="0.3s"/>
+      </circle>
+    </g>
+  </g>
+  
+  <!-- Clouds in sky -->
+  <g id="duckScene_cloud1_5113" opacity="0.85">
+    <animateTransform 
+      attributeName="transform" 
+      type="translate" 
+      from="900,120" 
+      to="-200,120" 
+      dur="180s" 
+      repeatCount="indefinite"/>
+    <circle cx="100" cy="100" r="25" fill="#ffffff" />
+    <circle cx="140" cy="85" r="30" fill="#ffffff" />
+    <circle cx="180" cy="100" r="25" fill="#ffffff" />
+    <circle cx="150" cy="120" r="28" fill="#ffffff" />
+  </g>
+  
+  <g id="duckScene_cloud2_5113" opacity="0.75">
+    <animateTransform 
+      attributeName="transform" 
+      type="translate" 
+      from="1000,200" 
+      to="-300,200" 
+      dur="240s" 
+      repeatCount="indefinite"/>
+    <circle cx="200" cy="180" r="20" fill="#ffffff" />
+    <circle cx="230" cy="170" r="25" fill="#ffffff" />
+    <circle cx="260" cy="185" r="22" fill="#ffffff" />
+    <circle cx="240" cy="200" r="23" fill="#ffffff" />
+  </g>
+  
+  <!-- Moon -->
+  <circle cx="120" cy="150" r="35" fill="#e3f2fd" opacity="0.85">
+    <animate attributeName="opacity" values="0.85;0.6;0.85" dur="30s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="130" cy="140" r="15" fill="#bbdefb" opacity="0.6" />
+  <circle cx="115" cy="160" r="10" fill="#bbdefb" opacity="0.4" />
+</svg>
+        </div>
+		
+<div class="cell">
+            <div class="model-label">Qwen 3 Coder Next 80B</div>
+            <svg width="800" height="800" viewBox="0 0 800 800" xmlns="http://www.w0.org/2000/svg">
+  <title>Ebb and Flow: The Duck's Journey</title>
+  <defs>
+    <!-- SKY GRADIENTS -->
+    <linearGradient id="duckScene_skyDay" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#74b9ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a29bfe;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="duckScene_sunset" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#d63031;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#fdcb6e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0984e3;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- WATER PATTERNS -->
+    <pattern id="duckScene_waterPattern" patternUnits="userSpaceOnUse" width="100" height="100">
+      <path d="M0 50 Q25 40 50 50 T100 50" stroke="#74b9ff" stroke-width="2" fill="none" opacity="0.3">
+        <animate attributeName="d" dur="4s" repeatCount="indefinite" 
+          values="M0 50 Q25 40 50 50 T100 50; M0 50 Q25 60 50 50 T100 50; M0 50 Q25 40 50 50 T100 50" />
+      </path>
+    </pattern>
+
+    <!-- WAVE MOTION PATH -->
+    <path id="duckScene_waterWavePath" d="M0 600 Q200 580 400 600 T800 600" />
+
+    <!-- DUCK GROUNDS & FILTERS -->
+    <filter id="duckScene_shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+
+    <!-- DUCK MASK FOR WAVING -->
+    <mask id="duckScene_bodyMask">
+      <rect x="0" y="0" width="1000" height="1000" fill="white" />
+    </mask>
+
+    <!-- REUSABLE DUCK ASSETS -->
+    <!-- Duck Body Group -->
+    <g id="duckScene_duckBody">
+      <ellipse cx="0" cy="-10" rx="60" ry="45" fill="#f1c40f" />
+      <circle cx="10" cy="-25" r="22" fill="#f1c40f" />
+    </g>
+
+    <!-- Duck Wing Group -->
+    <g id="duckScene_wing">
+      <path d="M5 0 Q30 -20 40 10 Q30 30 5 15" fill="#e67e22" />
+      <path d="M10 5 Q25 -10 30 5" stroke="#d35400" stroke-width="1" fill="none" opacity="0.5" />
+    </g>
+
+    <!-- Duck Head Group -->
+    <g id="duckScene_head">
+      <circle cx="35" cy="-35" r="18" fill="#f1c40f" />
+      <circle cx="40" cy="-38" r="4" fill="#000" />
+      <path d="M44 -35 L58 -30 L44 -25 Z" fill="#e74c3c" />
+      <path d="M46 -28 L56 -24 L46 -20 Z" fill="#f39c12" opacity="0.8" />
+      <path d="M35 -20 Q45 -15 55 -20" stroke="#d35400" stroke-width="2" fill="none" />
+    </g>
+
+    <!-- Duck Tail Group -->
+    <g id="duckScene_tail">
+      <path d="M-55 -10 L-80 -20 L-70 0 L-80 20 L-55 10 Z" fill="#d35400" />
+    </g>
+  </defs>
+
+  <!-- SCENE 1: SKY -->
+  <rect x="0" y="0" width="800" height="800" fill="url(#duckScene_skyDay)" />
+  
+  <!-- Background Clouds (Animated) -->
+  <g id="duckScene_clouds" opacity="0.9">
+    <g transform="translate(100, 100)">
+      <path d="M0 0 Q20 -20 40 0 T80 0 T120 0 V20 H0 Z" fill="white">
+        <animateMotion dur="20s" repeatCount="indefinite" 
+          path="M0 0 L700 0" />
+      </path>
+      <circle cx="20" cy="-15" r="15" fill="white" />
+      <circle cx="50" cy="-25" r="20" fill="white" />
+      <circle cx="80" cy="-15" r="15" fill="white" />
+    </g>
+
+    <g transform="translate(400, 150) scale(0.6)">
+      <path d="M0 0 Q20 -20 40 0 T80 0 T120 0 V20 H0 Z" fill="white">
+        <animateMotion dur="25s" repeatCount="indefinite" 
+          path="M0 0 L-500 0" />
+      </path>
+      <circle cx="20" cy="-15" r="15" fill="white" />
+      <circle cx="50" cy="-25" r="20" fill="white" />
+    </g>
+  </g>
+
+  <!-- SKY DECORATIONS -->
+  <circle cx="600" cy="150" r="40" fill="white" opacity="0.2" class="sunGlow">
+    <animate attributeName="r" dur="10s" repeatCount="indefinite" values="40;45;40" />
+    <animate attributeName="opacity" dur="10s" repeatCount="indefinite" values="0.2;0.3;0.2" />
+  </circle>
+
+  <!-- WATER LAYERS -->
+  <!-- Deep Water -->
+  <rect x="0" y="550" width="800" height="250" fill="#0984e3" opacity="0.8" />
+  
+  <!-- Surface Water -->
+  <rect id="duckScene_waterSurface" x="0" y="550" width="800" height="250" fill="url(#duckScene_waterPattern)" opacity="0.6">
+    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="3s" repeatCount="indefinite" values="0,0; -100,0" />
+  </rect>
+
+  <!-- Foreground Waves (Rippling Effect) -->
+  <g id="duckScene_waves">
+    <path d="M0 600 Q100 580 200 600 T400 600 T600 600 T800 600 V800 H0 Z" fill="#74b9ff" opacity="0.5" />
+    <path d="M0 630 Q100 650 200 630 T400 630 T600 630 T800 630 V800 H0 Z" fill="#74b9ff" opacity="0.4" />
+  </g>
+
+  <!-- SCENE 2: THE DUCK & ANIMATION -->
+  <g id="duckScene_pondHero" transform="translate(100, 600)">
+    <!-- The Body -->
+    <use href="#duckScene_duckBody" x="0" y="0">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" values="0; 5; 0" dur="2s" repeatCount="indefinite" />
+    </use>
+
+    <!-- The Wing (Flapping) -->
+    <use href="#duckScene_wing" x="0" y="0">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" 
+        values="-10; 20; -10" dur="0.6s" repeatCount="indefinite" />
+    </use>
+
+    <!-- The Tail -->
+    <use href="#duckScene_tail" x="0" y="0" />
+
+    <!-- The Head (Bobbing) -->
+    <g transform="translate(35, -35)">
+      <use href="#duckScene_head" />
+      <animateTransform attributeName="transform" attributeType="XML" type="translate" 
+        values="35, -35; 35, -38; 35, -35" dur="2s" repeatCount="indefinite" />
+    </g>
+
+    <!-- swimming trail bubbles -->
+    <g id="duckScene_bubbles">
+      <circle cx="-10" cy="0" r="3" fill="white" opacity="0.8">
+        <animate attributeName="cy" from="0" to="-50" dur="4s" repeatCount="indefinite" />
+        <animate attributeName="opacity" from="0.8" to="0" dur="4s" repeatCount="indefinite" />
+        <animate attributeName="cx" from="-10" to="-30" dur="4s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="0" cy="-10" r="2" fill="white" opacity="0.8">
+        <animate attributeName="cy" from="-10" to="-60" dur="5s" begin="1s" repeatCount="indefinite" />
+        <animate attributeName="opacity" from="0.8" to="0" dur="5s" repeatCount="indefinite" />
+        <animate attributeName="cx" from="0" to="20" dur="5s" begin="1s" repeatCount="indefinite" />
+      </circle>
+    </g>
+  </g>
+
+  <!-- SECONDARY DUCK (Baby) -->
+  <g id="duckScene_followling" transform="translate(250, 680) scale(0.6)" opacity="0.8">
+    <use href="#duckScene_duckBody" x="0" y="0">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" values="0; -5; 0" dur="2.2s" repeatCount="indefinite" />
+    </use>
+    <use href="#duckScene_wing" x="0" y="0" transform="rotate(-15)">
+      <animateTransform attributeName="transform" attributeType="XML" type="rotate" 
+        values="-5; 15; -5" dur="0.7s" repeatCount="indefinite" />
+    </use>
+    <g transform="translate(20, -20)">
+      <circle cx="0" cy="0" r="12" fill="#f39c12" />
+      <circle cx="4" cy="-3" r="2" fill="#000" />
+      <path d="M6 0 L14 4 L6 8 Z" fill="#d35400" />
+    </g>
+    <animateMotion dur="12s" repeatCount="indefinite" path="M0 0 C 50 -50, 150 -50, 200 0 C 150 50, 50 50, 0 0" />
+  </g>
+
+  <!-- FOREGROUND DECORATION (Lilies) -->
+  <g id="duckScene_lilies">
+    <!-- Lily 1 -->
+    <g transform="translate(150, 580)">
+      <path d="M0 0 Q-20 50 0 100 L5 90 Q20 40 5 0 Z" fill="#2ecc71" />
+      <circle cx="0" cy="0" r="15" fill="#ffffff" opacity="0.8">
+        <animate attributeName="r" dur="8s" repeatCount="indefinite" values="15;17;15" />
+      </circle>
+      <circle cx="0" cy="0" r="5" fill="#f1c40f" />
+    </g>
+    
+    <!-- Lily 2 -->
+    <g transform="translate(650, 620) scale(0.8)">
+      <path d="M0 0 Q20 60 0 120 L-5 110 Q-20 50 -5 0 Z" fill="#27ae60" />
+      <circle cx="0" cy="0" r="18" fill="#ecf0f1" />
+      <circle cx="0" cy="0" r="6" fill="#f39c12" />
+    </g>
+  </g>
+
+  <!-- REFLECTIONS (Subtle) -->
+  <g opacity="0.3" style="mix-blend-mode: multiply;">
+    <use href="#duckScene_pondHero" transform="scale(1, -1) translate(0, -1200)" />
+    <use href="#duckScene_followling" transform="scale(1, -1) translate(0, -1360)" />
+    <use href="#duckScene_lilies" transform="scale(1, -1) translate(0, -1160)" />
+  </g>
+
+</svg>
+        </div>
+		
+		
+		<div class="cell">
+            <div class="model-label">Trinity Large Preview</div>
+           <svg width="800" height="800" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Sky with gradient -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4682B4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#006994;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="waterRipple">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+  
+  <!-- Background Sky -->
+  <rect width="800" height="800" fill="url(#skyGradient)" />
+  
+  <!-- Animated Water with ripple effect -->
+  <rect id="duckScene_water" x="0" y="400" width="800" height="400" fill="url(#waterGradient)">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 5; 0 0" dur="3s" repeatCount="indefinite" />
+  </rect>
+  
+  <!-- Duck Body -->
+  <g id="duckScene_duck">
+    <!-- Body -->
+    <ellipse id="duckScene_body" cx="400" cy="500" rx="60" ry="40" fill="#FFD700" />
+    
+    <!-- Head -->
+    <circle id="duckScene_head" cx="340" cy="480" r="25" fill="#FFD700">
+      <animate attributeName="cy" values="480; 475; 480" dur="1s" repeatCount="indefinite" />
+    </circle>
+    
+    <!-- Eye -->
+    <circle id="duckScene_eye" cx="330" cy="475" r="5" fill="black" />
+    <circle id="duckScene_eyeHighlight" cx="328" cy="473" r="2" fill="white" />
+    
+    <!-- Beak -->
+    <path id="duckScene_beak" d="M340 485 L360 490 Q365 485 360 480 L340 485" fill="#FF8C00" />
+    
+    <!-- Wing -->
+    <ellipse id="duckScene_wing" cx="380" cy="500" rx="30" ry="20" fill="#FFA500">
+      <animateTransform attributeName="transform" type="rotate" from="0 380 500" to="15 380 500" dur="1s" repeatCount="indefinite" />
+    </ellipse>
+    
+    <!-- Tail -->
+    <path id="duckScene_tail" d="M460 500 L480 490 L480 510 Z" fill="#FFA500" />
+  </g>
+  
+  <!-- Duck Swimming Animation -->
+  <g id="duckScene_swimAnimation">
+    <animateTransform xlink:href="#duckScene_duck" attributeName="transform" type="translate" values="0 0; 50 0; 0 0" dur="4s" repeatCount="indefinite" />
+    <animate xlink:href="#duckScene_duck" attributeName="opacity" values="1; 0.8; 1" dur="4s" repeatCount="indefinite" />
+  </g>
+  
+  <!-- Water Ripples -->
+  <circle id="duckScene_ripple1" cx="400" cy="500" r="10" fill="none" stroke="#B0E0E6" stroke-width="2" opacity="0.5">
+    <animate attributeName="r" values="10; 50; 10" dur="2s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0.5; 0; 0.5" dur="2s" repeatCount="indefinite" />
+  </circle>
+  
+  <circle id="duckScene_ripple2" cx="400" cy="500" r="10" fill="none" stroke="#B0E0E6" stroke-width="2" opacity="0.5">
+    <animate attributeName="r" values="10; 50; 10" dur="2.5s" repeatCount="indefinite" begin="0.5s" />
+    <animate attributeName="opacity" values="0.5; 0; 0.5" dur="2.5s" repeatCount="indefinite" begin="0.5s" />
+  </circle>
+  
+  <!-- Optional: Add some clouds for ambience -->
+  <circle id="duckScene_cloud1" cx="100" cy="100" r="30" fill="white" opacity="0.8">
+    <animate attributeName="cx" values="100; 200; 100" dur="10s" repeatCount="indefinite" />
+  </circle>
+  <circle id="duckScene_cloud2" cx="150" cy="100" r="35" fill="white" opacity="0.8">
+    <animate attributeName="cx" values="150; 250; 150" dur="10s" repeatCount="indefinite" begin="2s" />
+  </circle>
+  <circle id="duckScene_cloud3" cx="200" cy="110" r="25" fill="white" opacity="0.8">
+    <animate attributeName="cx" values="200; 300; 200" dur="10s" repeatCount="indefinite" begin="4s" />
+  </circle>
+</svg>
+        </div>
+		
+		
+		<div class="cell">
+            <div class="model-label">Aurora Alpha (?)</div>
+            <svg
+    id="duckScene_root"
+    width="800"
+    height="800"
+    viewBox="0 0 800 800"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    style="background:#87ceeb;">
+
+  <!-- ============================================================= -->
+  <!--  Definitions (gradients, duck template, etc.)                 -->
+  <!-- ============================================================= -->
+  <defs>
+    <!-- Sky gradient -->
+    <linearGradient id="duckScene_skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#87ceeb"/>
+      <stop offset="100%" stop-color="#b0e0e6"/>
+    </linearGradient>
+
+    <!-- Water gradient -->
+    <linearGradient id="duckScene_waterGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#4da6ff"/>
+      <stop offset="100%" stop-color="#0066cc"/>
+    </linearGradient>
+
+    <!-- Duck template (re‑usable) -->
+    <g id="duckScene_duckTemplate">
+      <!-- body -->
+      <ellipse cx="0" cy="0" rx="30" ry="20" fill="#ffdd00" stroke="#e6b800" stroke-width="2"/>
+      <!-- head -->
+      <circle cx="35" cy="-10" r="12" fill="#ffdd00" stroke="#e6b800" stroke-width="2"/>
+      <!-- beak -->
+      <polygon points="45,-10 55,-5 55,-15" fill="#ffaa00" stroke="#e6b800" stroke-width="1"/>
+      <!-- eye -->
+      <circle cx="38" cy="-12" r="2" fill="#000"/>
+      <!-- wing (simple) -->
+      <path d="M-10,0 C0,10 10,10 20,0" fill="none" stroke="#e6b800" stroke-width="2"/>
+    </g>
+  </defs>
+
+  <!-- ============================================================= -->
+  <!--  Sky background                                                -->
+  <!-- ============================================================= -->
+  <rect width="800" height="800" fill="url(#duckScene_skyGrad)"/>
+
+  <!-- Distant hills (simple silhouette) -->
+  <path d="M0,600 Q200,500 400,600 T800,600 V800 H0 Z" fill="#5c8a57"/>
+
+  <!-- ============================================================= -->
+  <!--  Water surface – animated wave                                 -->
+  <!-- ============================================================= -->
+  <g id="duckScene_waterGroup">
+    <path id="duckScene_waterWave"
+          d="M0,660 C150,640 250,680 400,660 C550,640 650,680 800,660 L800,800 L0,800 Z"
+          fill="url(#duckScene_waterGrad)">
+      <animate attributeName="d"
+               dur="6s"
+               repeatCount="indefinite"
+               values="
+M0,660 C150,640 250,680 400,660 C550,640 650,680 800,660 L800,800 L0,800 Z;
+M0,660 C150,680 250,640 400,660 C550,680 650,640 800,660 L800,800 L0,800 Z;
+M0,660 C150,640 250,680 400,660 C550,640 650,680 800,660 L800,800 L0,800 Z"/>
+    </path>
+  </g>
+
+  <!-- ============================================================= -->
+  <!--  Duck – animated swimming                                      -->
+  <!-- ============================================================= -->
+  <g id="duckScene_duckGroup"
+     transform="translate(200,600)">
+    <use xlink:href="#duckScene_duckTemplate"/>
+
+    <!-- 1️⃣ Horizontal drift (200 → 600) -->
+    <animateTransform attributeName="transform"
+                      type="translate"
+                      values="0,0;400,0"
+                      dur="12s"
+                      repeatCount="indefinite"
+                      additive="sum"/>
+
+    <!-- 2️⃣ Bobbing up‑and‑down -->
+    <animateTransform attributeName="transform"
+                      type="translate"
+                      values="0,0;0,-15;0,0"
+                      keyTimes="0;0.5;1"
+                      dur="4s"
+                      repeatCount="indefinite"
+                      additive="sum"/>
+
+    <!-- 3️⃣ Gentle rotation to suggest turning -->
+    <animateTransform attributeName="transform"
+                      type="rotate"
+                      values="0;5;-5;0"
+                      keyTimes="0;0.33;0.66;1"
+                      dur="8s"
+                      repeatCount="indefinite"
+                      additive="sum"
+                      origin="0,0"/>
+  </g>
+</svg>
+        </div>
+		
+		
+		<div class="cell">
+            <div class="model-label">Step 3.5 flash</div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+  <style>
+    @keyframes waveMove {
+      from { transform: translateX(0); }
+      to { transform: translateX(-200px); }
+    }
+    @keyframes swim {
+      0%   { transform: translate(-100px, 385px) rotate(0deg); }
+      25%  { transform: translate(200px, 380px) rotate(2deg); }
+      50%  { transform: translate(500px, 385px) rotate(0deg); }
+      75%  { transform: translate(800px, 380px) rotate(-2deg); }
+      100% { transform: translate(1000px, 385px) rotate(0deg); }
+    }
+    @keyframes driftRight {
+      from { transform: translateX(0); }
+      to   { transform: translateX(1000px); }
+    }
+    @keyframes driftLeft {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-1000px); }
+    }
+    @keyframes sunPulse {
+      0%, 100% { opacity: 0.9; }
+      50%       { opacity: 0.7; }
+    }
+
+    .wave1 { color: rgba(255,255,255,0.6); animation: waveMove 6s linear infinite; }
+    .wave1 use { stroke-width: 2; }
+    .wave2 { color: rgba(255,255,255,0.4); animation: waveMove 4s linear infinite; animation-delay: -1s; }
+    .wave2 use { stroke-width: 1; }
+    .wave3 { color: rgba(255,255,255,0.3); animation: waveMove 8s linear infinite; animation-delay: -3s; }
+    .wave3 use { stroke-width: 0.5; }
+
+    .duck { animation: swim 20s linear infinite; }
+
+    .cloud1 { animation: driftRight 80s linear infinite; }
+    .cloud2 { animation: driftLeft 120s linear infinite; }
+
+    .sun { animation: sunPulse 5s ease-in-out infinite; }
+  </style>
+
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4FACFE"/>
+      <stop offset="100%" stop-color="#00F2FE"/>
+    </linearGradient>
+    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E90FF"/>
+      <stop offset="100%" stop-color="#00308F"/>
+    </linearGradient>
+    <linearGradient id="duckGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFDE59"/>
+      <stop offset="100%" stop-color="#FDB813"/>
+    </linearGradient>
+    <path id="waveShape" d="M0,0 Q25,-2 50,0 T100,0 T150,0 T200,0" fill="none" stroke="currentColor"/>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="100%" height="100%" fill="url(#skyGradient)"/>
+
+  <!-- Sun -->
+  <circle class="sun" cx="700" cy="100" r="50" fill="#FFD700"/>
+
+  <!-- Clouds -->
+  <g transform="translate(-100,80)">
+    <g class="cloud1">
+      <circle cx="0" cy="0" r="20" fill="white" opacity="0.8"/>
+      <circle cx="25" cy="-10" r="25" fill="white" opacity="0.8"/>
+      <circle cx="50" cy="0" r="20" fill="white" opacity="0.8"/>
+      <circle cx="25" cy="10" r="15" fill="white" opacity="0.8"/>
+    </g>
+  </g>
+  <g transform="translate(900,150)">
+    <g class="cloud2">
+      <circle cx="0" cy="0" r="15" fill="white" opacity="0.7"/>
+      <circle cx="20" cy="-8" r="20" fill="white" opacity="0.7"/>
+      <circle cx="40" cy="0" r="15" fill="white" opacity="0.7"/>
+      <circle cx="20" cy="8" r="12" fill="white" opacity="0.7"/>
+    </g>
+  </g>
+
+  <!-- Water -->
+  <rect x="0" y="400" width="100%" height="200" fill="url(#waterGradient)"/>
+
+  <!-- Wave layers -->
+  <g transform="translate(0,403)">
+    <g class="wave1">
+      <use href="#waveShape" x="0"/>
+      <use href="#waveShape" x="200"/>
+      <use href="#waveShape" x="400"/>
+      <use href="#waveShape" x="600"/>
+      <use href="#waveShape" x="800"/>
+    </g>
+  </g>
+  <g transform="translate(0,404)">
+    <g class="wave2">
+      <use href="#waveShape" x="0"/>
+      <use href="#waveShape" x="200"/>
+      <use href="#waveShape" x="400"/>
+      <use href="#waveShape" x="600"/>
+      <use href="#waveShape" x="800"/>
+    </g>
+  </g>
+  <g transform="translate(0,405)">
+    <g class="wave3">
+      <use href="#waveShape" x="0"/>
+      <use href="#waveShape" x="200"/>
+      <use href="#waveShape" x="400"/>
+      <use href="#waveShape" x="600"/>
+      <use href="#waveShape" x="800"/>
+    </g>
+  </g>
+
+  <!-- Duck -->
+  <g class="duck">
+    <ellipse cx="0" cy="0" rx="40" ry="20" fill="url(#duckGradient)"/>
+    <circle cx="30" cy="-10" r="15" fill="url(#duckGradient)"/>
+    <path d="M40,-12 L60,-8 L40,-4 Z" fill="#FF6F00"/>
+    <circle cx="32" cy="-12" r="2" fill="black"/>
+    <path d="M-35,-5 L-45,0 L-35,5 Z" fill="url(#duckGradient)"/>
+  </g>
+</svg>
+        </div>
+		
+				<div class="cell">
+            <div class="model-label">Solar Pro 3.0</div>
+            <svg id="duckScene_duck5119" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Gradients -->
+  <defs>
+    <!-- Sky gradient -->
+    <radialGradient id="duckScene_skyGradient400" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#032b4d"/>
+      <stop offset="100%" stop-color="#3fa5ff"/>
+    </radialGradient>
+    <!-- Subtle water base shading -->
+    <linearGradient id="duckScene_waterBaseGrad400" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0066cc" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#66ccff" stop-opacity="0.1"/>
+    </linearGradient>
+    <!-- Animated water surface -->
+    <linearGradient id="duckScene_waterSurfaceGrad400" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#80b3ff"/>
+      <stop offset="100%" stop-color="#cceeff"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect id="duckScene_skyRect400" x="0" y="0" width="400" height="400" fill="url(#duckScene_skyGradient400)"/>
+  
+  <!-- Static water base shading -->
+  <rect id="duckScene_waterBase400" x="0" y="200" width="400" height="400" fill="url(#duckScene_waterBaseGrad400)" opacity="0.1"/>
+  
+  <!-- Animated water surface (ebb & flow) -->
+  <rect id="duckScene_waterSurface400" x="0" y="200" width="400" height="0" fill="url(#duckScene_waterSurfaceGrad400)">
+    <animate attributeName="height" values="0;200;0" dur="10s" repeatCount="indefinite" fill="freeze"/>
+  </rect>
+  
+  <!-- Wave motion (stroke‑dashoffset) -->
+  <path id="duckScene_waterWave400" d="M0,200 C100,260 300,260 400,200" fill="none" stroke="white" stroke-width="5" stroke-opacity="0.4">
+    <animate attributeName="stroke-dashoffset" values="0;-200;0" dur="8s" repeatCount="indefinite" fill="freeze"/>
+  </path>
+  
+  <!-- Duck swimming group -->
+  <g id="duckScene_duckGroup400">
+    <!-- Motion path for the duck -->
+    <path id="duckScene_duckPath400" d="M0,120 C200,160 200,160 400,120" fill="none" stroke="none"/>
+    
+    <!-- Head -->
+    <circle id="duckScene_duckHead400" cx="70" cy="130" r="30" fill="#ffcc99"/>
+    
+    <!-- Beak -->
+    <path id="duckScene_duckBeak400" d="M65,125 L80,128 L75,135" fill="none" stroke="#ffb800" stroke-width="2"/>
+    
+    <!-- Body -->
+    <path id="duckScene_duckBody400" d="M70,130 C120,180 120,180 170,130" fill="#a0a0a0" stroke="none"/>
+    
+    <!-- Tail -->
+    <polygon id="duckScene_duckTail400" points="170,130 190,130 180,110" fill="#a0a0a0" stroke="none"/>
+    
+    <!-- Left wing (flap) -->
+    <g id="duckScene_wingLeft400" transform="rotate(-30 70 130)">
+      <ellipse id="duckScene_wingLeftEllipse400" cx="60" cy="120" rx="15" ry="30" fill="#d2b5b5"/>
+      <animateTransform attributeName="transform" type="rotate" values="-30 70 130;30 70 130;-30 70 130" dur="0.8s" repeatCount="indefinite" keyTimes="0;0.5;1" keySplines="0.5 0 0.5 1" calcMode="spline" additive="replace"/>
+    </g>
+    <!-- Right wing (flap) -->
+      <g id="duckScene_wingRight400" transform="rotate(30 70 130)">
+        <ellipse id="duckScene_wingRightEllipse400" cx="80" cy="120" rx="15" ry="30" fill="#d2b5b5"/>
+        <animateTransform attributeName="transform" type="rotate" values="30 70 130;-30 70 130;30 70 130" dur="0.8s" repeatCount="indefinite" keyTimes="0;0.5;1" keySplines="0.5 0 0.5 1" calcMode="spline" additive="replace"/>
+      </g>
+      <!-- Duck follows the curved path -->
+      <animateMotion dur="15s" repeatCount="indefinite" rotate="auto">
+        <mpath xlink:href="#duckScene_duckPath400"/>
+      </animateMotion>
+    </g>
+</svg>
+        </div>
+
+    </div>
     <footer style="margin-top: 50px; padding: 20px; border-top: 1px solid #ccc; font-size: 12px; opacity: 0.7;">
         <p>Created by: <span id="handle-trigger">@NotSure</span></p>
         <p>License: CC BY 4.0. No warranty provided. AI-generated assets.</p>
